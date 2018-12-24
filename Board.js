@@ -9,6 +9,7 @@ let Board = class {
         this.width = width;
         this.height = height;
 
+        this.foodQuadTree = new QuadTree(0, new Rect(0, 0, this.width, this.height));
         this.playersQuadTree = new QuadTree(0, new Rect(0, 0, this.width, this.height));        
         this.players = {};
     }
@@ -41,7 +42,7 @@ let Board = class {
         });
     }
     checkPlayerCollisions(player) {
-        const list = this.playersQuadTree.retrieve(player);
+        const list = this.playersQuadTree.retrieve(player.pos, player.radius);
         player.checkCollision(list);
     }
 

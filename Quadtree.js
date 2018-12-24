@@ -33,7 +33,7 @@ let Quadtree = class {
         this.nodes[3] = new Quadtree(this.level+1, new Rect(x+halfWidth, y+halfHeight, halfWidth, halfHeight));
     }
 
-    getQuads(player) {
+    getQuads(pos, radius) {
         // Which quadrant player lies in
         let quads = [];
         let sides = {
@@ -47,10 +47,10 @@ let Quadtree = class {
         const midY = this.bounds.y + this.bounds.height/2;
 
         // Test sides player falls in pnly once
-        if(player.pos.x - player.radius <= midX) sides.l = true;
-        if(player.pos.x + player.radius >= midX) sides.r = true;
-        if(player.pos.y - player.radius <= midY) sides.u = true;
-        if(player.pos.y + player.radius >= midY) sides.d = true;
+        if(pos.x - radius <= midX) sides.l = true;
+        if(pos.x + radius >= midX) sides.r = true;
+        if(pos.y - radius <= midY) sides.u = true;
+        if(pos.y + radius >= midY) sides.d = true;
 
         // Determine corresponding quadrant
         if(sides.l && sides.u) quads.push(0);
@@ -64,7 +64,7 @@ let Quadtree = class {
     insert(player) {
         // If quad has already split
         if(this.nodes[0]) {
-            const quads = this.getQuads(player);
+            const quads = this.getQuads(player.pos, player.radius);
 
             quads.forEach(quad => {
                 this.nodes[quad].insert(player);
@@ -81,7 +81,7 @@ let Quadtree = class {
 
             while(this.objects.length > 0){
                 const poppedPlayer = this.objects.pop();
-                const quads = this.getQuads(poppedPlayer);
+                const quads = this.getQuads(poppedPlayer.pos, poppedPlayer.radius);
 
                 quads.forEach(quad => {
                     this.nodes[quad].insert(poppedPlayer);
@@ -90,7 +90,7 @@ let Quadtree = class {
         }
     }
 
-    retrieve(player) {
+    retrieve(pos, radius) {
         // if(this.nodes[0]) {
         //     const quads = this.getQuads(player);
         //     quads.forEach(quad => {
@@ -108,11 +108,11 @@ let Quadtree = class {
 
         let retrievedObjects = [];
 
-        const quads = this.getQuads(player);
+        const quads = this.getQuads(pos, radius);
 
         // if(this.nodes[0]) {
             quads.forEach(quad => {
-                const list = this.nodes[quad].retrieve(player);
+                const list = this.nodes[quad].retrieve(pos, radius);
                 retrievedObjects = retrievedObjects.concat(list);
             });
         // }
