@@ -1,9 +1,11 @@
-let Player = class {
-    constructor(id, pos, now) {
+const Circle = require('./Circle');
+
+let Player = class extends Circle {
+    constructor(id, pos, radius, now) {
+        super(pos, radius);
+
         this.id = id;
-        this.pos = pos;
-        this.speed = 1/4;
-        this.radius = 15;
+        this.speed = 1/8;
         this.color = 'grey'
         this.direction = {
             x: -1,
@@ -25,6 +27,8 @@ let Player = class {
 
         if(this.pos.y <= 100) this.direction.y = -1;
         else if(this.pos.y > 500) this.direction.y = 1;
+
+        this.lastUpdateTime = now;
     }
 
     checkCollision(list) {
