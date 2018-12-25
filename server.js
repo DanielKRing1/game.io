@@ -62,7 +62,7 @@ setInterval(() => {
     board.addFood();
 
     // console.log(Object.keys(board.food).length);
-}, 1000/60);
+}, 1000/2);
 
 setInterval(() => {
     console.log(board.foodQuadTree.print());
