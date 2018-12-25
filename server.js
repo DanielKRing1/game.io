@@ -61,4 +61,4 @@ setTimeout(() => {
 
 setInterval(() => {
     console.log(board.food);
-});
+}, 1000);
