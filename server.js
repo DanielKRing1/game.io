@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
     // New Player
     socket.on('new player', () => {
         board.restartBoard();
-        for(let i = 0; i < 20; i++) {
+        for(let i = 0; i < 1; i++) {
             board.addPlayer(`${i}`, board.getRandomPos());
         }
         board.addPlayer(socket.id, {x:0, y:0});
@@ -45,12 +45,12 @@ setInterval(() => {
     board.updateAllPlayerPositions();
 
     io.sockets.emit('state', board.players, board.food);
-}, 1000 / 60);
+}, 1000 / 30);
 
 // Update Player Quadtree
 setInterval(() => {
     board.updatePlayersQuadTree();
-}, 1000 / 8);
+}, 1000 / 4);
 
 // setInterval(() => {
 //     board.updateFoodQuadTree();
@@ -62,8 +62,8 @@ setInterval(() => {
     board.addFood();
 
     // console.log(Object.keys(board.food).length);
-}, 1000/2);
+}, 1000);
 
-setInterval(() => {
-    console.log(board.foodQuadTree.print());
-}, 10000);
+// setInterval(() => {
+//     console.log(board.foodQuadTree.print());
+// }, 10000);

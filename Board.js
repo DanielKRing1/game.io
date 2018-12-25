@@ -17,7 +17,7 @@ let Board = class {
         this.players = {};
         this.playerCount = 0;
 
-        this.foodQuadTree = new QuadTree(0, new Rect(0, 0, this.width, this.height), 15, 6);
+        this.foodQuadTree = new QuadTree(0, new Rect(0, 0, this.width, this.height), 15, 4);
         this.food = {};
         this.foodCount = 0;
     }
@@ -106,7 +106,7 @@ let Board = class {
     }
 
     addFood() {
-        const foodToAdd = 100;
+        const foodToAdd = 200;
 
         for(let i = 0; i < foodToAdd; i++){
             if(this.foodCount >= MAX_FOOD) return;
