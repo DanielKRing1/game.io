@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
     // New Player
     socket.on('new player', () => {
         board.restartBoard();
-        for(let i = 0; i < 200; i++) {
+        for(let i = 0; i < 10; i++) {
             board.addPlayer(`${i}`, board.getRandomPos());
         }
         board.addPlayer(socket.id, {x:0, y:0});
