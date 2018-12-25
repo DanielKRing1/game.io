@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
     // New Player
     socket.on('new player', () => {
         board.restartBoard();
-        for(let i = 0; i < 20; i++) {
+        for(let i = 0; i < 100; i++) {
             board.addPlayer(`${i}`);
         }
         board.addPlayer(socket.id);
