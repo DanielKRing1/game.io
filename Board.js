@@ -61,7 +61,7 @@ let Board = class {
         this.foodQuadTree.clear();
 
         Object.keys(this.food).forEach(key => {
-            const bite = this.bite[key];
+            const bite = this.food[key];
             this.foodQuadTree.insert(bite);
         });
     }
