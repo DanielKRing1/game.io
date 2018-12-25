@@ -29,9 +29,9 @@ io.on('connection', (socket) => {
     socket.on('new player', () => {
         board.restartBoard();
         for(let i = 0; i < 100; i++) {
-            board.addPlayer(`${i}`);
+            board.addPlayer(`${i}`, board.getRandomPos());
         }
-        board.addPlayer(socket.id);
+        board.addPlayer(socket.id, {x:0, y:0});
     });
 
     // Save move direction

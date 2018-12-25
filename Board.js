@@ -22,8 +22,8 @@ let Board = class {
         this.foodCount = 0;
     }
 
-    addPlayer(playerId) {
-        this.players[playerId] = new Player(playerId, this.getRandomPos(), util.getNow());
+    addPlayer(playerId,pos) {
+        this.players[playerId] = new Player(playerId, pos, util.getNow());
         this.playerCount++;
     }
     removePlayer(player) {
