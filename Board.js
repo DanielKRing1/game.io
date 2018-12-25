@@ -84,19 +84,19 @@ let Board = class {
     }
 
     addFood() {
-        const foodToAdd = 20;
+        // const foodToAdd = 20;
 
-        for(let i = 0; i < foodToAdd; i++){
-            if(this.foodCount >= MAX_FOOD) return;
-            // console.log(this.foodCount)
-            const id = uuid();
-            this.food[id] = new Food(id, this.getRandomPos());
+        // for(let i = 0; i < foodToAdd; i++){
+        //     if(this.foodCount >= MAX_FOOD) return;
+        //     // console.log(this.foodCount)
+        //     const id = uuid();
+        //     this.food[id] = new Food(id, this.getRandomPos());
             
-            // Add to foodQuadTree
-            this.foodQuadTree.insert(this.food[id])
+        //     // Add to foodQuadTree
+        //     this.foodQuadTree.insert(this.food[id])
 
-            this.foodCount++;
-        }
+        //     this.foodCount++;
+        // }
     }
 
     removeFood(food) {
