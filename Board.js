@@ -6,7 +6,7 @@ const Player = require('./Player');
 const Food = require('./Food');
 const util = require('./utils/methods');
 
-const MAX_FOOD = 500;
+const MAX_FOOD = 1000;
 
 let Board = class {
     constructor(width, height) {
