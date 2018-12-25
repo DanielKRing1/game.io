@@ -1,7 +1,7 @@
 const uuid = require('uuid/v1');
 
 const Rect = require('./Rect');
-const QuadTree = require('./QuadTree');
+const QuadTree = require('./quadtree');
 const Player = require('./Player');
 const Food = require('./Food');
 const util = require('./utils/methods');
