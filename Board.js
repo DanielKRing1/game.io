@@ -23,7 +23,7 @@ let Board = class {
     }
 
     addPlayer(playerId) {
-        this.players[playerId] = new Player(playerId, {x:0,y:0}, util.getNow());
+        this.players[playerId] = new Player(playerId, this.getRandomPos(), util.getNow());
         this.playerCount++;
     }
     removePlayer(player) {
