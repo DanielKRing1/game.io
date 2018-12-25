@@ -22,13 +22,13 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 // Handle Player Movement
 const WIDTH = 5000;
 const HEIGHT = 2500;
-const board = new Board(10000, 5000);
+const board = new Board(1000, 500);
 
 io.on('connection', (socket) => {
     // New Player
     socket.on('new player', () => {
         board.restartBoard();
-        for(let i = 0; i < 100; i++) {
+        for(let i = 0; i < 200; i++) {
             board.addPlayer(`${i}`, board.getRandomPos());
         }
         board.addPlayer(socket.id, {x:0, y:0});
@@ -52,13 +52,18 @@ setInterval(() => {
     board.updatePlayersQuadTree();
 }, 1000 / 8);
 
-setInterval(() => {
-    board.updateFoodQuadTree();
-}, 1000);
+// setInterval(() => {
+//     board.updateFoodQuadTree();
+// }, 1000);
 
 // Add Food
 setInterval(() => {
+    console.log(board.foodCount);
     board.addFood();
 
     // console.log(Object.keys(board.food).length);
-}, 1000);
+}, 1000/60);
+
+setInterval(() => {
+    console.log(board.foodQuadTree.print());
+}, 10000);

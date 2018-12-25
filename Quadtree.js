@@ -92,12 +92,9 @@ let Quadtree = class {
     remove(pos, radius) {
         // If lowest level
         if(!this.nodes[0]) {
-            this.objects.forEach((obj, index) => {
-                if(obj.pos === pos) {
-                    // console.log('remove')
-                    this.objects.splice(index, 1);
-                    return;
-                }
+            this.objects = this.objects.filter(obj => {
+                if(obj.pos === pos) return false;
+                return true;
             });
             return;
         }

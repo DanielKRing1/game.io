@@ -6,18 +6,18 @@ const Player = require('./Player');
 const Food = require('./Food');
 const util = require('./utils/methods');
 
-const MAX_FOOD = 1000;
+const MAX_FOOD = 500;
 
 let Board = class {
     constructor(width, height) {
         this.width = width;
         this.height = height;
 
-        this.playersQuadTree = new QuadTree(0, new Rect(0, 0, this.width, this.height), 10, 4);
+        this.playersQuadTree = new QuadTree(0, new Rect(0, 0, this.width, this.height), 4, 4);
         this.players = {};
         this.playerCount = 0;
 
-        this.foodQuadTree = new QuadTree(0, new Rect(0, 0, this.width, this.height), 20, 6);
+        this.foodQuadTree = new QuadTree(0, new Rect(0, 0, this.width, this.height), 15, 6);
         this.food = {};
         this.foodCount = 0;
     }
@@ -57,32 +57,32 @@ let Board = class {
             this.playersQuadTree.insert(player);
         });
     }
-    updateFoodQuadTree() {
-        this.foodQuadTree.clear();
+    // updateFoodQuadTree() {
+    //     this.foodQuadTree.clear();
 
-        Object.keys(this.food).forEach(key => {
-            const bite = this.food[key];
-            this.foodQuadTree.insert(bite);
-        });
-    }
+    //     Object.keys(this.food).forEach(key => {
+    //         const bite = this.food[key];
+    //         this.foodQuadTree.insert(bite);
+    //     });
+    // }
     checkPlayerCollisions(player) {
         const list = this.playersQuadTree.retrieve(player.pos, player.radius);
 
         // Change color for collision
-        const collisions = player.getCollisions(list);
+        const collisions = this.getCollisions(player, list);
         if(collisions.length > 0) player.color = 'red';
         else player.color = 'grey';
 
         // Absorb players
         const absorbedPlayers = player.getAbsorbedPlayers(list);
-        absorbedPlayers.forEach(other => {
-            this.radius += other.radius;
-            this.removePlayer(other);
-        });
+        // absorbedPlayers.forEach(other => {
+        //     this.radius += other.radius;
+        //     this.removePlayer(other);
+        // });
     }
     checkFoodCollisions(player) {
         const list = this.foodQuadTree.retrieve(player.pos, player.radius);
-        const collisions = player.getCollisions(list);
+        const collisions = this.getCollisions(player, list);
 
         collisions.forEach(col => {
             player.grow(col.growRadius);
@@ -90,9 +90,23 @@ let Board = class {
             this.removeFood(col);
         });
     }
+    // Remove duplicates from QuadTree.retrieve()
+    getCollisions(player, list) {
+        // Remove duplicates
+        let potentialCollisions = {};
+        list.forEach(el => {
+            potentialCollisions[el.id] = el;
+        });
+        const potentialList = Object.keys(potentialCollisions).map(key => {
+            return potentialCollisions[key];
+        });
+        const collisions =  player.getCollisions(potentialList);
+
+        return collisions;
+    }
 
     addFood() {
-        const foodToAdd = 20;
+        const foodToAdd = 1;
 
         for(let i = 0; i < foodToAdd; i++){
             if(this.foodCount >= MAX_FOOD) return;
