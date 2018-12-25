@@ -1,12 +1,13 @@
 const Circle = require('./Circle');
 
+const RADIUS = 15;
+
 let Player = class extends Circle {
-    constructor(id, pos, radius, now) {
-        super(pos, radius);
+    constructor(id, pos, now) {
+        super(id, pos, 15, 'grey');
 
         this.id = id;
-        this.speed = 1/8;
-        this.color = 'grey'
+        this.speed = 1/4;
         this.direction = {
             x: -1,
             y: -1
@@ -22,16 +23,63 @@ let Player = class extends Circle {
         this.pos.x += this.direction.x * distance;
         this.pos.y -= this.direction.y * distance;
 
-        if(this.pos.x <= 100) this.direction.x = 1;
-        else if(this.pos.x > 1000) this.direction.x = -1;
+        if(this.pos.x <= 0+this.radius) this.direction.x = 1;
+        else if(this.pos.x > 1000-this.radius) this.direction.x = -1;
 
-        if(this.pos.y <= 100) this.direction.y = -1;
-        else if(this.pos.y > 500) this.direction.y = 1;
+        if(this.pos.y <= 0+this.radius) this.direction.y = -1;
+        else if(this.pos.y > 500-this.radius) this.direction.y = 1;
 
         this.lastUpdateTime = now;
     }
 
-    checkCollision(list) {
+    grow(radius) {
+        this.radius += radius;
+    }
+    showCollision() {
+        this.color = 'red';
+    }
+
+
+    getCollisions(list) {
+        let collisionList = [];
+
+        list.forEach(other => {
+            if(other.id === this.id) return;
+
+            const distanceSqr = this.calcDistanceSqr(this.pos, other.pos);
+
+            // Touching at least edge
+            if(distanceSqr <= this.calcSqr(this.radius + other.radius)) {
+                collisionList.push(other);
+            }
+        });
+
+        return collisionList;
+    }
+    getAbsorbedPlayers(list) {
+        let absorbedList = [];
+
+        list.forEach(other => {
+            if(other.id === this.id) return;
+
+            const distanceSqr = this.calcDistanceSqr(this.pos, other.pos);
+
+            // Touching at least center
+            if(distanceSqr <= this.calcSqr(other.radius)) {
+                // If 1.5 times larger
+                const area = this.calcArea(this.radius);
+                const otherArea = this.calcArea(other.radius);
+                
+                if(area >= 1.5*otherArea){
+                    absorbedList.push(other);
+                }
+            }
+        });
+
+        return absorbedList;
+    }
+
+    checkCollisionOriginal(list) {
         let collided;
         
         if(Array.isArray(list)) {
@@ -64,6 +112,9 @@ let Player = class extends Circle {
         this.color = collided ? 'red' : 'grey';
     }
 
+    calcArea(radius) {
+        return Math.PI * radius * radius;
+    }
     calcDistanceSqr(a, b) {
         const x = a.x - b.x;
         const y = a.y - b.y;

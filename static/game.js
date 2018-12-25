@@ -49,11 +49,19 @@ document.addEventListener('keyup', function(event) {
 });
 
 const canvas = document.getElementById('canvas');
-canvas.width = 0.9 * document.documentElement.clientWidth;
-canvas.height = 0.8 * document.documentElement.clientHeight;
+canvas.width = 1000; //0.9 * document.documentElement.clientWidth;
+canvas.height = 500; //0.8 * document.documentElement.clientHeight;
 const context = canvas.getContext('2d');
-socket.on('state', (players) => {
+socket.on('state', (players, food) => {
     context.clearRect(0, 0, canvas.width, canvas.height);
+    Object.keys(food).forEach(key => {
+        const bite = food[key];
+        context.beginPath();
+        context.arc(bite.pos.x, bite.pos.y, bite.radius, 0, 2 * Math.PI);
+        context.fillStyle = bite.color;
+        context.fill();
+    });
+    
     Object.keys(players).forEach(key => {
         const player = players[key];
         context.beginPath();

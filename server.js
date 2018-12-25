@@ -20,11 +20,11 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 server.listen(port, () => console.log(`Listening on port ${port}`));
 
 // Handle Player Movement
-const WIDTH = 1000;
-const HEIGHT = 500;
-const board = new Board(WIDTH, HEIGHT);
+const WIDTH = 5000;
+const HEIGHT = 2500;
+const board = new Board(1000, 500);
 
-for(let i = 0; i < 20; i++) {
+for(let i = 0; i < 100; i++) {
     board.addPlayer(`${i}`);
 }
 
@@ -44,10 +44,17 @@ io.on('connection', (socket) => {
 setInterval(() => {
     board.updateAllPlayerPositions();
 
-    io.sockets.emit('state', board.players);
+    io.sockets.emit('state', board.players, board.food);
 }, 1000 / 60);
 
-// Update Quadtree
+// Update Player Quadtree
 setInterval(() => {
     board.updatePlayersQuadTree();
 }, 1000 / 8);
+
+// Add Food
+setInterval(() => {
+    board.addFood();
+
+    // console.log(Object.keys(board.food).length);
+}, 1000);

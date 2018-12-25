@@ -1,7 +1,9 @@
 let Circle = class {
-    constructor (pos, radius) {
+    constructor (id, pos, radius, color) {
+        this.id = id;
         this.pos = pos;
         this.radius = radius;
+        this.color = color;
     }
 }
 

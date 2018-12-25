@@ -1,12 +1,12 @@
 const Rect = require('./Rect');
 
 const MAX_OBJECTS = 10;
-const MAX_LEVELS = 4;
 
 let Quadtree = class {
-    constructor(level, bounds) {
+    constructor(level, bounds, maxLevels) {
         this.level = level;
         this.bounds = bounds;
+        this.maxLevels = maxLevels;
         this.objects = [];
         this.nodes = [];
     }
@@ -61,22 +61,22 @@ let Quadtree = class {
         return quads;
     }
 
-    insert(player) {
+    insert(obj) {
         // If quad has already split
         if(this.nodes[0]) {
-            const quads = this.getQuads(player.pos, player.radius);
+            const quads = this.getQuads(obj.pos, obj.radius);
 
             quads.forEach(quad => {
-                this.nodes[quad].insert(player);
+                this.nodes[quad].insert(obj);
             });
 
             return;
         }
 
-        this.objects.push(player);
+        this.objects.push(obj);
 
         // Too many players in quad, split
-        if(this.objects.length > MAX_OBJECTS && this.level < MAX_LEVELS) {
+        if(this.objects.length > MAX_OBJECTS && this.level < this.maxLevels) {
             this.split();
 
             while(this.objects.length > 0){
@@ -88,6 +88,25 @@ let Quadtree = class {
                 });
             }
         }
+    }
+
+    remove(pos, radius) {
+        // If lowest level
+        if(!this.nodes[0]) {
+            this.objects.forEach((obj, index) => {
+                if(obj.pos === pos) {
+                    // console.log('remove')
+                    this.objects.splice(index, 1);
+                    return;
+                }
+            });
+            return;
+        }
+
+        const quads = this.getQuads(pos, radius);
+        quads.forEach(quad => {
+            this.nodes[quad].remove(pos, radius);
+        });
     }
 
     retrieve(pos, radius) {
