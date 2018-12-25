@@ -22,13 +22,13 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 // Handle Player Movement
 const WIDTH = 5000;
 const HEIGHT = 2500;
-const board = new Board(10000, 5000);
+const board = new Board(5000, 2500);
 
 io.on('connection', (socket) => {
     // New Player
     socket.on('new player', () => {
         board.restartBoard();
-        for(let i = 0; i < 10; i++) {
+        for(let i = 0; i < 20; i++) {
             board.addPlayer(`${i}`, board.getRandomPos());
         }
         board.addPlayer(socket.id, {x:0, y:0});

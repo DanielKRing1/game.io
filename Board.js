@@ -6,7 +6,7 @@ const Player = require('./Player');
 const Food = require('./Food');
 const util = require('./utils/methods');
 
-const MAX_FOOD = 200;
+const MAX_FOOD = 500;
 
 let Board = class {
     constructor(width, height) {
@@ -75,10 +75,10 @@ let Board = class {
 
         // Absorb players
         const absorbedPlayers = player.getAbsorbedPlayers(list);
-        // absorbedPlayers.forEach(other => {
-        //     this.radius += other.radius;
-        //     this.removePlayer(other);
-        // });
+        absorbedPlayers.forEach(other => {
+            this.radius += other.radius;
+            this.removePlayer(other);
+        });
     }
     checkFoodCollisions(player) {
         const list = this.foodQuadTree.retrieve(player.pos, player.radius);
