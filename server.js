@@ -24,13 +24,13 @@ const WIDTH = 5000;
 const HEIGHT = 2500;
 const board = new Board(1000, 500);
 
-for(let i = 0; i < 1; i++) {
-    board.addPlayer(`${i}`);
-}
-
 io.on('connection', (socket) => {
     // New Player
     socket.on('new player', () => {
+        board.restartBoard();
+        for(let i = 0; i < 20; i++) {
+            board.addPlayer(`${i}`);
+        }
         board.addPlayer(socket.id);
     });
 

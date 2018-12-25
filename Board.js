@@ -17,7 +17,7 @@ let Board = class {
         this.players = {};
         this.playerCount = 0;
 
-        this.foodQuadTree = new QuadTree(0, new Rect(0, 0, this.width, this.height), 100, 6);
+        this.foodQuadTree = new QuadTree(0, new Rect(0, 0, this.width, this.height), 20, 6);
         this.food = {};
         this.foodCount = 0;
     }
@@ -110,6 +110,16 @@ let Board = class {
             x: Math.floor(Math.random() * this.width),
             y: Math.floor(Math.random() * this.height)
         }
+    }
+
+    restartBoard() {
+        this.players = {};
+        this.playersQuadTree.clear();
+        this.playerCount = 0;
+
+        this.food = {};
+        this.foodQuadTree.clear();
+        this.foodCount = 0;
     }
 }
 
