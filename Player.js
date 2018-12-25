@@ -4,7 +4,7 @@ const RADIUS = 15;
 
 let Player = class extends Circle {
     constructor(id, pos, now) {
-        super(id, pos, 100, 'grey');
+        super(id, pos, 15, 'grey');
 
         this.id = id;
         this.speed = 1/4;
@@ -24,10 +24,10 @@ let Player = class extends Circle {
         this.pos.y -= this.direction.y * distance;
 
         if(this.pos.x <= 0+this.radius) this.direction.x = 1;
-        else if(this.pos.x > 1000-this.radius) this.direction.x = -1;
+        else if(this.pos.x > 10000-this.radius) this.direction.x = -1;
 
         if(this.pos.y <= 0+this.radius) this.direction.y = -1;
-        else if(this.pos.y > 500-this.radius) this.direction.y = 1;
+        else if(this.pos.y > 5000-this.radius) this.direction.y = 1;
 
         this.lastUpdateTime = now;
     }

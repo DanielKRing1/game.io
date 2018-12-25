@@ -22,7 +22,7 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 // Handle Player Movement
 const WIDTH = 5000;
 const HEIGHT = 2500;
-const board = new Board(1000, 500);
+const board = new Board(10000, 5000);
 
 io.on('connection', (socket) => {
     // New Player
