@@ -52,6 +52,10 @@ setInterval(() => {
     board.updatePlayersQuadTree();
 }, 1000 / 8);
 
+setInterval(() => {
+    board.updateFoodQuadTree();
+}, 1000);
+
 // Add Food
 setInterval(() => {
     board.addFood();

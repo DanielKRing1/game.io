@@ -57,6 +57,14 @@ let Board = class {
             this.playersQuadTree.insert(player);
         });
     }
+    updateFoodQuadTree() {
+        this.foodQuadTree.clear();
+
+        Object.keys(this.food).forEach(key => {
+            const bite = this.bite[key];
+            this.foodQuadTree.insert(bite);
+        });
+    }
     checkPlayerCollisions(player) {
         const list = this.playersQuadTree.retrieve(player.pos, player.radius);
 
