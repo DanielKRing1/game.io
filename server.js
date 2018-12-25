@@ -22,7 +22,7 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 // Handle Player Movement
 const WIDTH = 5000;
 const HEIGHT = 2500;
-const board = new Board(2000, 1000);
+const board = new Board(1000, 500);
 
 for(let i = 0; i < 1; i++) {
     board.addPlayer(`${i}`);
