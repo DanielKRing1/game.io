@@ -9,7 +9,7 @@ const path = require('path');
 const Board = require('./Board.js');
 const util = require('./utils/methods');
 
-const port = 3000 || process.env.PORT;
+const port = process.env.PORT || 3000;
 
 app.use('/static', express.static(`${__dirname}/static`));
 
