@@ -22,9 +22,9 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 // Handle Player Movement
 const WIDTH = 5000;
 const HEIGHT = 2500;
-const board = new Board(1000, 500);
+const board = new Board(2000, 1000);
 
-for(let i = 0; i < 100; i++) {
+for(let i = 0; i < 1; i++) {
     board.addPlayer(`${i}`);
 }
 
@@ -53,7 +53,7 @@ setInterval(() => {
 }, 1000 / 8);
 
 // Add Food
-setInterval(() => {
+setTimeout(() => {
     board.addFood();
 
     // console.log(Object.keys(board.food).length);

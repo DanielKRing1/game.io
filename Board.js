@@ -6,24 +6,24 @@ const Player = require('./Player');
 const Food = require('./Food');
 const util = require('./utils/methods');
 
-const MAX_FOOD = 100;
+const MAX_FOOD = 1000;
 
 let Board = class {
     constructor(width, height) {
         this.width = width;
         this.height = height;
 
-        this.playersQuadTree = new QuadTree(0, new Rect(0, 0, this.width, this.height), 4);
+        this.playersQuadTree = new QuadTree(0, new Rect(0, 0, this.width, this.height), 10, 4);
         this.players = {};
         this.playerCount = 0;
 
-        this.foodQuadTree = new QuadTree(0, new Rect(0, 0, this.width, this.height), 8);
+        this.foodQuadTree = new QuadTree(0, new Rect(0, 0, this.width, this.height), 100, 6);
         this.food = {};
         this.foodCount = 0;
     }
 
     addPlayer(playerId) {
-        this.players[playerId] = new Player(playerId, {x: 10, y: 10}, util.getNow());
+        this.players[playerId] = new Player(playerId, {x:0,y:0}, util.getNow());
         this.playerCount++;
     }
     removePlayer(player) {
@@ -86,7 +86,7 @@ let Board = class {
     addFood() {
         const foodToAdd = 20;
 
-        for(let i = 0; i < foodToAdd; i++){
+        for(let i = 0; i < MAX_FOOD; i++){
             if(this.foodCount >= MAX_FOOD) return;
             // console.log(this.foodCount)
             const id = uuid();

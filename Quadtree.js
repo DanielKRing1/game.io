@@ -1,11 +1,10 @@
 const Rect = require('./Rect');
 
-const MAX_OBJECTS = 10;
-
 let Quadtree = class {
-    constructor(level, bounds, maxLevels) {
+    constructor(level, bounds, maxObjects, maxLevels) {
         this.level = level;
         this.bounds = bounds;
+        this.maxObjects = maxObjects;
         this.maxLevels = maxLevels;
         this.objects = [];
         this.nodes = [];
@@ -76,7 +75,7 @@ let Quadtree = class {
         this.objects.push(obj);
 
         // Too many players in quad, split
-        if(this.objects.length > MAX_OBJECTS && this.level < this.maxLevels) {
+        if(this.objects.length > this.maxObjects && this.level < this.maxLevels) {
             this.split();
 
             while(this.objects.length > 0){
