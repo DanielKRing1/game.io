@@ -53,12 +53,8 @@ setInterval(() => {
 }, 1000 / 8);
 
 // Add Food
-setTimeout(() => {
+setInterval(() => {
     board.addFood();
 
     // console.log(Object.keys(board.food).length);
-}, 1000);
-
-setInterval(() => {
-    console.log(board.food);
 }, 1000);
