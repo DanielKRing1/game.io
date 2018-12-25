@@ -6,7 +6,7 @@ const Player = require('./Player');
 const Food = require('./Food');
 const util = require('./utils/methods');
 
-const MAX_FOOD = 500;
+const MAX_FOOD = 200;
 
 let Board = class {
     constructor(width, height) {
@@ -106,7 +106,7 @@ let Board = class {
     }
 
     addFood() {
-        const foodToAdd = 20;
+        const foodToAdd = 100;
 
         for(let i = 0; i < foodToAdd; i++){
             if(this.foodCount >= MAX_FOOD) return;
