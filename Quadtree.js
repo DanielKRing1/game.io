@@ -32,7 +32,7 @@ let Quadtree = class {
         this.nodes[3] = new Quadtree(this.level+1, new Rect(x+halfWidth, y+halfHeight, halfWidth, halfHeight));
     }
 
-    getQuads(pos, radius) {
+    getQuads(pos, width, height) {
         // Which quadrant player lies in
         let quads = [];
         let sides = {
@@ -46,10 +46,10 @@ let Quadtree = class {
         const midY = this.bounds.y + this.bounds.height/2;
 
         // Test sides player falls in pnly once
-        if(pos.x - radius <= midX) sides.l = true;
-        if(pos.x + radius >= midX) sides.r = true;
-        if(pos.y - radius <= midY) sides.u = true;
-        if(pos.y + radius >= midY) sides.d = true;
+        if(pos.x - width <= midX) sides.l = true;
+        if(pos.x + width >= midX) sides.r = true;
+        if(pos.y - height <= midY) sides.u = true;
+        if(pos.y + height >= midY) sides.d = true;
 
         // Determine corresponding quadrant
         if(sides.l && sides.u) quads.push(0);
@@ -63,7 +63,7 @@ let Quadtree = class {
     insert(obj) {
         // If quad has already split
         if(this.nodes[0]) {
-            const quads = this.getQuads(obj.pos, obj.radius);
+            const quads = this.getQuads(obj.pos, obj.radius, obj.radius);
 
             quads.forEach(quad => {
                 this.nodes[quad].insert(obj);
@@ -80,7 +80,7 @@ let Quadtree = class {
 
             while(this.objects.length > 0){
                 const poppedPlayer = this.objects.pop();
-                const quads = this.getQuads(poppedPlayer.pos, poppedPlayer.radius);
+                const quads = this.getQuads(poppedPlayer.pos, poppedPlayer.radius, poppedPlayer.radius);
 
                 quads.forEach(quad => {
                     this.nodes[quad].insert(poppedPlayer);
@@ -89,23 +89,25 @@ let Quadtree = class {
         }
     }
 
-    remove(pos, radius) {
+    remove(pos, width, height) {
         // If lowest level
         if(!this.nodes[0]) {
             this.objects = this.objects.filter(obj => {
-                if(obj.pos === pos) return false;
+                if(obj.pos.x === pos.x && obj.pos.y === pos.y) {
+                    return false;
+                }
                 return true;
             });
             return;
         }
 
-        const quads = this.getQuads(pos, radius);
+        const quads = this.getQuads(pos, width, height);
         quads.forEach(quad => {
-            this.nodes[quad].remove(pos, radius);
+            this.nodes[quad].remove(pos, width, height);
         });
     }
 
-    retrieve(pos, radius) {
+    retrieve(pos, width, height) {
         // if(this.nodes[0]) {
         //     const quads = this.getQuads(player);
         //     quads.forEach(quad => {
@@ -123,11 +125,12 @@ let Quadtree = class {
 
         let retrievedObjects = [];
 
-        const quads = this.getQuads(pos, radius);
+        const quads = this.getQuads(pos, width, height);
+        // console.log(quads);
 
         // if(this.nodes[0]) {
             quads.forEach(quad => {
-                const list = this.nodes[quad].retrieve(pos, radius);
+                const list = this.nodes[quad].retrieve(pos, width, height);
                 retrievedObjects = retrievedObjects.concat(list);
             });
         // }

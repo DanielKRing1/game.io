@@ -10,7 +10,7 @@ let Player = class extends Circle {
         this.speed = 1/4;
         this.direction = {
             x: -1,
-            y: -1
+            y: 1
         };
         this.lastUpdateTime = now;
     }
@@ -40,77 +40,77 @@ let Player = class extends Circle {
     }
 
 
-    getCollisions(list) {
-        let collisionList = [];
+    // getCollisions(list) {
+    //     let collisionList = [];
 
-        list.forEach(other => {
-            if(other.id === this.id) return;
+    //     list.forEach(other => {
+    //         if(other.id === this.id) return;
 
-            const distanceSqr = this.calcDistanceSqr(this.pos, other.pos);
+    //         const distanceSqr = this.calcDistanceSqr(this.pos, other.pos);
 
-            // Touching at least edge
-            if(distanceSqr <= this.calcSqr(this.radius + other.radius)) {
-                collisionList.push(other);
-            }
-        });
+    //         // Touching at least edge
+    //         if(distanceSqr <= this.calcSqr(this.radius + other.radius)) {
+    //             collisionList.push(other);
+    //         }
+    //     });
 
-        return collisionList;
-    }
-    getAbsorbedPlayers(list) {
-        let absorbedList = [];
+    //     return collisionList;
+    // }
+    // getAbsorbedPlayers(list) {
+    //     let absorbedList = [];
 
-        list.forEach(other => {
-            if(other.id === this.id) return;
+    //     list.forEach(other => {
+    //         if(other.id === this.id) return;
 
-            const distanceSqr = this.calcDistanceSqr(this.pos, other.pos);
+    //         const distanceSqr = this.calcDistanceSqr(this.pos, other.pos);
 
-            // Touching at least center
-            if(distanceSqr <= this.calcSqr(other.radius)) {
-                // If 1.5 times larger
-                const area = this.calcArea(this.radius);
-                const otherArea = this.calcArea(other.radius);
+    //         // Touching at least center
+    //         if(distanceSqr <= this.calcSqr(other.radius)) {
+    //             // If 1.5 times larger
+    //             const area = this.calcArea(this.radius);
+    //             const otherArea = this.calcArea(other.radius);
                 
-                if(area >= 1.5*otherArea){
-                    absorbedList.push(other);
-                }
-            }
-        });
+    //             if(area >= 1.5*otherArea){
+    //                 absorbedList.push(other);
+    //             }
+    //         }
+    //     });
 
-        return absorbedList;
-    }
+    //     return absorbedList;
+    // }
 
-    checkCollisionOriginal(list) {
-        let collided;
+    // checkCollisionOriginal(list) {
+    //     let collided;
         
-        if(Array.isArray(list)) {
-            collided = list.some(other => {
-                if(other.id === this.id) return false;
+    //     if(Array.isArray(list)) {
+    //         collided = list.some(other => {
+    //             if(other.id === this.id) return false;
 
-                const distanceSqr = this.calcDistanceSqr(this.pos, other.pos);
+    //             const distanceSqr = this.calcDistanceSqr(this.pos, other.pos);
     
-                if(distanceSqr <= this.calcSqr(this.radius + other.radius)) {
-                    return true;
-                }
-                return false;
-            });
-        }else {
-            collided = Object.keys(list).some(id => {
-                if(id === this.id) return false;
+    //             if(distanceSqr <= this.calcSqr(this.radius + other.radius)) {
+    //                 return true;
+    //             }
+    //             return false;
+    //         });
+    //     }else {
+    //         collided = Object.keys(list).some(id => {
+    //             if(id === this.id) return false;
     
-                // console.log(`${key} !== ${player.id}`)
+    //             // console.log(`${key} !== ${player.id}`)
         
-                const other = list[id];
-                const distanceSqr = this.calcDistanceSqr(this.pos, other.pos);
+    //             const other = list[id];
+    //             const distanceSqr = this.calcDistanceSqr(this.pos, other.pos);
     
-                if(distanceSqr <= this.calcSqr(this.radius + other.radius)) {
-                    return true;
-                }
-                return false;
-            });
-        }
+    //             if(distanceSqr <= this.calcSqr(this.radius + other.radius)) {
+    //                 return true;
+    //             }
+    //             return false;
+    //         });
+    //     }
 
-        this.color = collided ? 'red' : 'grey';
-    }
+    //     this.color = collided ? 'red' : 'grey';
+    // }
 
     calcArea(radius) {
         return Math.PI * radius * radius;
