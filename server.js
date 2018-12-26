@@ -64,7 +64,7 @@ setInterval(() => {
 
         io.to(`${id}`).emit('state', nearbyPlayers, nearbyFood);
     });
-}, 1000 / 25);
+}, 1000 / 20);
 
 // -------- DELEGATE TASKS TO CLIENT-SIDE --------
 // For each connected socket, ask for collision check
@@ -85,7 +85,7 @@ setInterval(() => {
 // Update Player Quadtree
 setInterval(() => {
     board.updatePlayersQuadTree();
-}, 1000 / 4);
+}, 1000);
 // Add Food
 setInterval(() => {
     board.addFood();
