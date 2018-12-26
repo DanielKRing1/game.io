@@ -64,7 +64,7 @@ setInterval(() => {
 
         io.to(`${id}`).emit('state', nearbyPlayers, nearbyFood);
     });
-}, 1000 / 30);
+}, 1000 / 10);
 
 // -------- DELEGATE TASKS TO CLIENT-SIDE --------
 // For each connected socket, ask for collision check
