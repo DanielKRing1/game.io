@@ -64,7 +64,7 @@ setInterval(() => {
 
         io.to(`${id}`).emit('state', nearbyPlayers, nearbyFood);
     });
-}, 1000 / 10);
+}, 1000 / 25);
 
 // -------- DELEGATE TASKS TO CLIENT-SIDE --------
 // For each connected socket, ask for collision check
@@ -78,7 +78,7 @@ setInterval(() => {
         const nearbyPlayers = board.getNearbyPlayers(id);
         io.to(`${id}`).emit('collision-check', player, nearbyFood, nearbyPlayers);
     });
-}, 1000 / 10);
+}, 1000 / 5);
 
 
 // -------- SERVER-SIDE --------
