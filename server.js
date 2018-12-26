@@ -78,15 +78,15 @@ setInterval(() => {
         const nearbyPlayers = board.getNearbyPlayers(id);
         io.to(`${id}`).emit('collision-check', player, nearbyFood, nearbyPlayers);
     });
-}, 1000 / 5);
+}, 1000 / 10);
 
 
 // -------- SERVER-SIDE --------
 // Update Player Quadtree
 setInterval(() => {
     board.updatePlayersQuadTree();
-}, 1000 / 2);
+}, 1000);
 // Add Food
 setInterval(() => {
     board.addFood();
-}, 1000 / 2);
+}, 1000 / 4);

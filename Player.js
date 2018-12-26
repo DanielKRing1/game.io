@@ -7,7 +7,7 @@ let Player = class extends Circle {
         super(id, pos, 15, 'grey');
 
         this.id = id;
-        this.speed = 1/4;
+        this.speed = 1/6;
         this.direction = {
             x: -1,
             y: 1

@@ -164,7 +164,7 @@ let Board = class {
     }
 
     addFood() {
-        const foodToAdd = 200;
+        const foodToAdd = 50;
 
         for(let i = 0; i < foodToAdd; i++){
             if(this.foodCount >= MAX_FOOD) return;
