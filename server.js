@@ -78,7 +78,7 @@ setInterval(() => {
         const nearbyPlayers = board.getNearbyPlayers(id);
         io.to(`${id}`).emit('collision-check', player, nearbyFood, nearbyPlayers);
     });
-}, 1000 / 10);
+}, 1000 / 20);
 
 
 // -------- SERVER-SIDE --------
