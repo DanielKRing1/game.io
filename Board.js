@@ -97,7 +97,7 @@ let Board = class {
                 const otherArea = this.calcArea(other.radius);
 
                 // if(area >= 1.5*otherArea){
-                    player.grow(other.radius/4);
+                    player.absorbPlayer(other.radius/4);
                     // Delete player
                     this.removePlayer(other.id);
                 // }

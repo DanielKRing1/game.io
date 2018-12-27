@@ -4,7 +4,7 @@ const RADIUS = 15;
 
 let Player = class extends Circle {
     constructor(id, pos, now) {
-        super(id, pos, 15, 'grey');
+        super(id, pos, 100 * Math.random(), 'grey');
 
         this.id = id;
         this.name = this.makeName();
@@ -45,6 +45,9 @@ let Player = class extends Circle {
 
     grow(radius) {
         this.radius += radius;
+    }
+    absorbPlayer(radius) {
+        this.radius += (this.radius / this.radius**1.44) * 10;
     }
     showCollision() {
         this.color = 'red';
