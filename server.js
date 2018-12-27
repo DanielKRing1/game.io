@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
     // New Player
     socket.on('new player', () => {
         // board.restartBoard();
-        for(let i = 0; i < 0; i++) {
+        for(let i = 0; i < 100; i++) {
             board.addPlayer(`${i}`, board.getRandomPos());
         }
         board.addPlayer(socket.id, {x:100, y:100});
@@ -52,6 +52,10 @@ io.on('connection', (socket) => {
             board.handleAbsorbedPlayers(player, data.absorbedPlayers);
         }
     })
+
+    socket.on('disconnect', () => {
+        board.removePlayer(socket.id);
+    });
 });
 
 // -------- CLIENT-SIDE --------
@@ -88,7 +92,7 @@ setInterval(() => {
 // Update Player Quadtree
 setInterval(() => {
     board.updatePlayersQuadTree();
-}, 1000);
+}, 1000 / 10);
 // Add Food
 setInterval(() => {
     board.addFood();

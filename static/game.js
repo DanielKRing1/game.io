@@ -56,7 +56,6 @@ socket.on('state', (me, food, players) => {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     if(!me) return;
-    console.log(me)
     if(!food) return;
     drawFood(me, food);
     if(!players) return;

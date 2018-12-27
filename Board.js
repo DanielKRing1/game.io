@@ -26,9 +26,13 @@ let Board = class {
         this.players[playerId] = new Player(playerId, pos, util.getNow());
         this.playerCount++;
     }
-    removePlayer(player) {
-        delete this.players[player.id];
+    removePlayer(id) {
+        const player = this.players[id];
+        if(!player) return;
+        
         this.playersQuadTree.remove(player.pos, player.radius, player.radius);
+        
+        delete this.players[id];
         this.playerCount--;
     }
     changePlayerDirection(id, dir) {
@@ -69,19 +73,23 @@ let Board = class {
     // Verify that Client REALLY DID absorb food
     handleAbsorbedFood(player, absorbedFood) {
         absorbedFood.forEach(bite => {
+            if(!bite.id) return;
+
             const distanceSqr = this.calcDistanceSqr(player.pos, bite.pos);
             // REALLY DID collide
             if(distanceSqr <= this.calcSqr(player.radius + bite.radius)) {
                 // console.log('in')
                 player.grow(bite.growRadius);
                 // Delete food bite
-                this.removeFood(bite);
+                this.removeFood(bite.id);
             }
         });
     }
     // Verify that Client REALLY DID absorb players
     handleAbsorbedPlayers(player, absorbedPlayers) {
         absorbedPlayers.forEach(other => {
+            if(!other.id) return;
+
             const distanceSqr = this.calcDistanceSqr(player.pos, other.pos);
             // REALLY DID collide
             if(distanceSqr <= this.calcSqr(other.radius) || distanceSqr <= this.calcSqr(player.radius)) {
@@ -91,7 +99,7 @@ let Board = class {
                 // if(area >= 1.5*otherArea){
                     player.grow(other.radius/2);
                     // Delete player
-                    this.removePlayer(other);
+                    this.removePlayer(other.id);
                 // }
             }
         });
@@ -108,7 +116,7 @@ let Board = class {
         // const absorbedPlayers = player.getAbsorbedPlayers(list);
         // absorbedPlayers.forEach(other => {
         //     player.radius += other.radius;
-        //     this.removePlayer(other);
+        //     this.removePlayer(other.id);
         // });
     }
     // checkFoodCollisions(player) {
@@ -118,7 +126,7 @@ let Board = class {
     //     collisions.forEach(col => {
     //         player.grow(col.growRadius);
     //         // Delete food bite
-    //         this.removeFood(col);
+    //         this.removeFood(col.id);
     //     });
     // }
     // Remove duplicates from QuadTree.retrieve()
@@ -179,9 +187,13 @@ let Board = class {
         }
     }
 
-    removeFood(food) {
-        delete this.food[food.id];
+    removeFood(id) {
+        const food = this.food[id];
+        if(!food) return;
+
         this.foodQuadTree.remove(food.pos, food.radius, food.radius);
+
+        delete this.food[id];
         this.foodCount--;
     }
 

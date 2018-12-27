@@ -9,8 +9,8 @@ let Player = class extends Circle {
         this.id = id;
         this.speed = 1/6;
         this.direction = {
-            x: 0,
-            y: 0
+            x: -1,
+            y: 1
         };
         this.lastUpdateTime = now;
     }
@@ -23,11 +23,11 @@ let Player = class extends Circle {
         this.pos.x += this.direction.x * distance;
         this.pos.y -= this.direction.y * distance;
 
-        // if(this.pos.x <= 0+this.radius) this.direction.x = 1;
-        // else if(this.pos.x > 5000-this.radius) this.direction.x = -1;
+        if(this.pos.x <= 0+this.radius) this.direction.x = 1;
+        else if(this.pos.x > 5000-this.radius) this.direction.x = -1;
 
-        // if(this.pos.y <= 0+this.radius) this.direction.y = -1;
-        // else if(this.pos.y > 2500-this.radius) this.direction.y = 1;
+        if(this.pos.y <= 0+this.radius) this.direction.y = -1;
+        else if(this.pos.y > 2500-this.radius) this.direction.y = 1;
 
         this.lastUpdateTime = now;
     }
