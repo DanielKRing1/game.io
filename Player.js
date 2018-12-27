@@ -7,6 +7,7 @@ let Player = class extends Circle {
         super(id, pos, 15, 'grey');
 
         this.id = id;
+        this.name = this.makeName();
         this.speed = 1/6;
         this.direction = {
             x: -1,
@@ -14,6 +15,16 @@ let Player = class extends Circle {
         };
         this.lastUpdateTime = now;
     }
+
+    makeName() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      
+        for (var i = 0; i < 5; i++)
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+      
+        return text;
+      }
 
     updatePos(now) {
         const elapsedTime = now - this.lastUpdateTime;

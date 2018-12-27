@@ -51,9 +51,9 @@ document.addEventListener('keyup', function(event) {
 const canvas = document.getElementById('canvas');
 canvas.width = 1000; //0.9 * document.documentElement.clientWidth;
 canvas.height = 500; //0.8 * document.documentElement.clientHeight;
-const context = canvas.getContext('2d');
+const ctx = canvas.getContext('2d');
 socket.on('state', (me, food, players) => {
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if(!me) return;
     if(!food) return;
@@ -74,18 +74,26 @@ socket.on('collision check-req', (me, nearbyFood, nearbyPlayers) => {
 
 const drawFood = (me, food) => {
     food.forEach(bite => {
-        context.beginPath();
-        context.arc(bite.pos.x - me.pos.x + canvas.width/2, bite.pos.y - me.pos.y + canvas.height/2, bite.radius, 0, 2 * Math.PI);
-        context.fillStyle = bite.color;
-        context.fill();
+        ctx.beginPath();
+        const x = bite.pos.x - me.pos.x + canvas.width/2;
+        const y = bite.pos.y - me.pos.y + canvas.height/2;
+        ctx.arc(x, y, bite.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = bite.color;
+        ctx.fill();
     });
 }
 const drawPlayers = (me, players) => {
     players.forEach(player => {
-        context.beginPath();
-        context.arc(player.pos.x - me.pos.x + canvas.width/2, player.pos.y - me.pos.y + canvas.height/2, player.radius, 0, 2 * Math.PI);
-        context.fillStyle = player.color;
-        context.fill();
+        ctx.beginPath();
+        const x = player.pos.x - me.pos.x + canvas.width/2;
+        const y = player.pos.y - me.pos.y + canvas.height/2;
+        ctx.arc(x, y, player.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = player.color;
+        ctx.fill();
+
+        ctx.font = "12px Oxygen";
+        ctx.textAlign = "center";
+        ctx.strokeText(player.name, x, y);
     });
 }
 

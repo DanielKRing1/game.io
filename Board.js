@@ -29,7 +29,7 @@ let Board = class {
     removePlayer(id) {
         const player = this.players[id];
         if(!player) return;
-        
+
         this.playersQuadTree.remove(player.pos, player.radius, player.radius);
         
         delete this.players[id];
@@ -97,7 +97,7 @@ let Board = class {
                 const otherArea = this.calcArea(other.radius);
 
                 // if(area >= 1.5*otherArea){
-                    player.grow(other.radius/2);
+                    player.grow(other.radius/4);
                     // Delete player
                     this.removePlayer(other.id);
                 // }

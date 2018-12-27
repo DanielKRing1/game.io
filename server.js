@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
         for(let i = 0; i < 100; i++) {
             board.addPlayer(`${i}`, board.getRandomPos());
         }
-        board.addPlayer(socket.id, {x:100, y:100});
+        board.addPlayer(socket.id, {x:-100, y:-100});
 
 
     });
