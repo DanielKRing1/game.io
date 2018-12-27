@@ -31,7 +31,9 @@ io.on('connection', (socket) => {
         for(let i = 0; i < 0; i++) {
             board.addPlayer(`${i}`, board.getRandomPos());
         }
-        board.addPlayer(socket.id, {x:0, y:0});
+        board.addPlayer(socket.id, {x:100, y:100});
+
+
     });
 
     // Save move data
@@ -40,7 +42,7 @@ io.on('connection', (socket) => {
     });
 
     // Verify collisions
-    socket.on('collision-check', (data) => {
+    socket.on('collision check-res', (data) => {
         const player = board.players[socket.id];
 
         if(data.absorbedFood.length > 0) {
@@ -59,12 +61,13 @@ setInterval(() => {
 
     // io.sockets.emit('state', board.players, board.food);
     Object.keys(io.sockets.sockets).forEach(id => {
+        const player = board.players[id];
         const nearbyFood = board.getNearbyFood(id);
         const nearbyPlayers = board.getNearbyPlayers(id);
 
-        io.to(`${id}`).emit('state', nearbyPlayers, nearbyFood);
+        io.to(`${id}`).emit('state', player, nearbyFood, nearbyPlayers);
     });
-}, 1000 / 20);
+}, 1000 / 60);
 
 // -------- DELEGATE TASKS TO CLIENT-SIDE --------
 // For each connected socket, ask for collision check
@@ -76,7 +79,7 @@ setInterval(() => {
 
         const nearbyFood = board.getNearbyFood(id);
         const nearbyPlayers = board.getNearbyPlayers(id);
-        io.to(`${id}`).emit('collision-check', player, nearbyFood, nearbyPlayers);
+        io.to(`${id}`).emit('collision check-req', player, nearbyFood, nearbyPlayers);
     });
 }, 1000 / 20);
 

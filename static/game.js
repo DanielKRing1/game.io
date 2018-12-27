@@ -52,40 +52,40 @@ const canvas = document.getElementById('canvas');
 canvas.width = 1000; //0.9 * document.documentElement.clientWidth;
 canvas.height = 500; //0.8 * document.documentElement.clientHeight;
 const context = canvas.getContext('2d');
-socket.on('state', (food, players) => {
+socket.on('state', (me, food, players) => {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    if(!players) return;
-    drawPlayers(players);
+    if(!me) return;
+    console.log(me)
     if(!food) return;
-    drawFood(food);
+    drawFood(me, food);
+    if(!players) return;
+    drawPlayers(me, players);
 
 });
-socket.on('collision-check', (me, nearbyFood, nearbyPlayers) => {
+socket.on('collision check-req', (me, nearbyFood, nearbyPlayers) => {
     const absorbedFood = getAbsorbedFood(me, nearbyFood);
     const absorbedPlayers = getAbsorbedPlayers(me, nearbyPlayers);
 
-    socket.emit('collision-check', {
+    socket.emit('collision check-res', {
         absorbedFood,
         absorbedPlayers
     });
 });
 
-const drawPlayers = (players) => {
-    Object.keys(players).forEach(key => {
-        const player = players[key];
+const drawFood = (me, food) => {
+    food.forEach(bite => {
         context.beginPath();
-        context.arc(player.pos.x, player.pos.y, player.radius, 0, 2 * Math.PI);
-        context.fillStyle = player.color;
+        context.arc(bite.pos.x - me.pos.x + canvas.width/2, bite.pos.y - me.pos.y + canvas.height/2, bite.radius, 0, 2 * Math.PI);
+        context.fillStyle = bite.color;
         context.fill();
     });
 }
-const drawFood = (food) => {
-    Object.keys(food).forEach(key => {
-        const bite = food[key];
+const drawPlayers = (me, players) => {
+    players.forEach(player => {
         context.beginPath();
-        context.arc(bite.pos.x, bite.pos.y, bite.radius, 0, 2 * Math.PI);
-        context.fillStyle = bite.color;
+        context.arc(player.pos.x - me.pos.x + canvas.width/2, player.pos.y - me.pos.y + canvas.height/2, player.radius, 0, 2 * Math.PI);
+        context.fillStyle = player.color;
         context.fill();
     });
 }
