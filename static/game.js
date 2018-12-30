@@ -1,6 +1,15 @@
 const socket = io();
 
-socket.emit('new player');
+const canvas = document.getElementById('canvas');
+canvas.width = document.body.clientWidth;
+canvas.height = document.body.clientHeight;
+console.log(canvas.width)
+const ctx = canvas.getContext('2d');
+
+socket.emit('new player', {
+    x: canvas.width,
+    y: canvas.height
+});
 
 // Send Movement
 setInterval(() => {
@@ -12,6 +21,17 @@ let direction = {
     x: 0,
     y: 0
 };
+
+// Send new Window Size
+window.addEventListener("resize", (e) => {
+    canvas.width = document.body.clientWidth;
+    canvas.height = document.body.clientHeight;
+
+    socket.emit('resize', {
+        x: canvas.width,
+        y: canvas.height
+    });
+});
 
 document.addEventListener('keydown', (event) => {
     switch (event.keyCode) {
@@ -30,7 +50,7 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-document.addEventListener('keyup', function(event) {
+document.addEventListener('keyup', (event) => {
     switch (event.keyCode) {
         case 65: // A
             if(direction.x === -1) direction.x = 0;
@@ -48,10 +68,6 @@ document.addEventListener('keyup', function(event) {
     }
 });
 
-const canvas = document.getElementById('canvas');
-canvas.width = 1000; //0.9 * document.documentElement.clientWidth;
-canvas.height = 500; //0.8 * document.documentElement.clientHeight;
-const ctx = canvas.getContext('2d');
 socket.on('state', (me, food, players) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
