@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
     socket.on('new player', (windowSize) => {
         // board.restartBoard();
         for(let i = 0; i < 100; i++) {
-            // board.addPlayer(`${i}`, board.getRandomPos(), {x: 0, y: 0}, util.getNow());
+            board.addPlayer(`${i}`, board.getRandomPos(), {x: 0, y: 0}, util.getNow());
         }
         board.addPlayer(socket.id, {x:-100, y:-100}, windowSize, util.getNow());
 
