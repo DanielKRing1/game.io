@@ -22,8 +22,8 @@ let Board = class {
         this.foodCount = 0;
     }
 
-    addPlayer(playerId, pos) {
-        this.players[playerId] = new Player(playerId, pos, util.getNow());
+    addPlayer(playerId, pos, windowSize) {
+        this.players[playerId] = new Player(playerId, pos, windowSize, util.getNow());
         this.playerCount++;
     }
     removePlayer(id) {
@@ -104,46 +104,6 @@ let Board = class {
             }
         });
     }
-    checkPlayerCollisions(player) {
-        // const list = this.playersQuadTree.retrieve(player.pos, player.radius);
-
-        // // Change color for collision
-        // const collisions = this.getCollisions(player, list);
-        // if(collisions.length > 0) player.color = 'red';
-        // else player.color = 'grey';
-
-        // // Absorb players
-        // const absorbedPlayers = player.getAbsorbedPlayers(list);
-        // absorbedPlayers.forEach(other => {
-        //     player.radius += other.radius;
-        //     this.removePlayer(other.id);
-        // });
-    }
-    // checkFoodCollisions(player) {
-    //     const list = this.foodQuadTree.retrieve(player.pos, player.radius, player.radius);
-    //     const collisions = this.getCollisions(player, list);
-
-    //     collisions.forEach(col => {
-    //         player.grow(col.growRadius);
-    //         // Delete food bite
-    //         this.removeFood(col.id);
-    //     });
-    // }
-    // Remove duplicates from QuadTree.retrieve()
-    getCollisions(player, list) {
-        // Remove duplicates
-        // let potentialCollisions = {};
-        // list.forEach(el => {
-        //     potentialCollisions[el.id] = el;
-        // });
-        // const potentialList = Object.keys(potentialCollisions).map(key => {
-        //     return potentialCollisions[key];
-        // });
-        const potentialCollisions = this.removeDuplicates(list);
-        const collisions =  player.getCollisions(potentialCollisions);
-
-        return collisions;
-    }
 
     removeDuplicates(list) {
         let obj = {};
@@ -155,19 +115,25 @@ let Board = class {
         return newList;
     }
 
-    getNearbyFood(id) {
+    getNearbyFood(id, w, h) {
         const player = this.players[id];
         if(!player) return;
 
-        const list = this.foodQuadTree.retrieve(player.pos, player.radius, player.radius);
+        const width = w ? w : player.radius;
+        const height = h ? h : player.radius;
+
+        const list = this.foodQuadTree.retrieve(player.pos, width, height);
         return this.removeDuplicates(list);
         
     }
-    getNearbyPlayers(id) {
+    getNearbyPlayers(id, w, h) {
         const player = this.players[id];
         if(!player) return;
 
-        const list = this.playersQuadTree.retrieve(player.pos, player.radius, player.radius);
+        const width = w ? w : player.radius;
+        const height = h ? h : player.radius;
+
+        const list = this.playersQuadTree.retrieve(player.pos, width, height);
         return this.removeDuplicates(list);
     }
 

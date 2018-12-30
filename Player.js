@@ -3,7 +3,7 @@ const Circle = require('./Circle');
 const RADIUS = 15;
 
 let Player = class extends Circle {
-    constructor(id, pos, now) {
+    constructor(id, pos, windowSize, now) {
         super(id, pos, 100 * Math.random(), 'grey');
 
         this.id = id;
@@ -13,6 +13,7 @@ let Player = class extends Circle {
             x: -1,
             y: 1
         };
+        this.windowSize = windowSize;
         this.lastUpdateTime = now;
     }
 
@@ -52,80 +53,7 @@ let Player = class extends Circle {
     showCollision() {
         this.color = 'red';
     }
-
-
-    // getCollisions(list) {
-    //     let collisionList = [];
-
-    //     list.forEach(other => {
-    //         if(other.id === this.id) return;
-
-    //         const distanceSqr = this.calcDistanceSqr(this.pos, other.pos);
-
-    //         // Touching at least edge
-    //         if(distanceSqr <= this.calcSqr(this.radius + other.radius)) {
-    //             collisionList.push(other);
-    //         }
-    //     });
-
-    //     return collisionList;
-    // }
-    // getAbsorbedPlayers(list) {
-    //     let absorbedList = [];
-
-    //     list.forEach(other => {
-    //         if(other.id === this.id) return;
-
-    //         const distanceSqr = this.calcDistanceSqr(this.pos, other.pos);
-
-    //         // Touching at least center
-    //         if(distanceSqr <= this.calcSqr(other.radius)) {
-    //             // If 1.5 times larger
-    //             const area = this.calcArea(this.radius);
-    //             const otherArea = this.calcArea(other.radius);
-                
-    //             if(area >= 1.5*otherArea){
-    //                 absorbedList.push(other);
-    //             }
-    //         }
-    //     });
-
-    //     return absorbedList;
-    // }
-
-    // checkCollisionOriginal(list) {
-    //     let collided;
-        
-    //     if(Array.isArray(list)) {
-    //         collided = list.some(other => {
-    //             if(other.id === this.id) return false;
-
-    //             const distanceSqr = this.calcDistanceSqr(this.pos, other.pos);
     
-    //             if(distanceSqr <= this.calcSqr(this.radius + other.radius)) {
-    //                 return true;
-    //             }
-    //             return false;
-    //         });
-    //     }else {
-    //         collided = Object.keys(list).some(id => {
-    //             if(id === this.id) return false;
-    
-    //             // console.log(`${key} !== ${player.id}`)
-        
-    //             const other = list[id];
-    //             const distanceSqr = this.calcDistanceSqr(this.pos, other.pos);
-    
-    //             if(distanceSqr <= this.calcSqr(this.radius + other.radius)) {
-    //                 return true;
-    //             }
-    //             return false;
-    //         });
-    //     }
-
-    //     this.color = collided ? 'red' : 'grey';
-    // }
-
     calcArea(radius) {
         return Math.PI * radius * radius;
     }

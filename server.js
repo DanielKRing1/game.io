@@ -7,6 +7,7 @@ const io = require('socket.io')(server);
 const path = require('path');
 
 const Board = require('./Board.js');
+const constants = require('./utils/constants');
 const util = require('./utils/methods');
 
 const port = process.env.PORT || 3000;
@@ -26,19 +27,26 @@ const board = new Board(5000, 2500);
 
 io.on('connection', (socket) => {
     // New Player
-    socket.on('new player', () => {
+    socket.on('new player', (windowSize) => {
         // board.restartBoard();
         for(let i = 0; i < 100; i++) {
-            board.addPlayer(`${i}`, board.getRandomPos());
+            // board.addPlayer(`${i}`, board.getRandomPos(), {x: 0, y: 0}, util.getNow());
         }
-        board.addPlayer(socket.id, {x:-100, y:-100});
+        board.addPlayer(socket.id, {x:-100, y:-100}, windowSize, util.getNow());
 
-
+        // socket.emit('new player-res', constants.width, constants.height);
     });
 
     // Save move data
     socket.on('movement', (data) => {
         board.changePlayerDirection(socket.id, data);
+    });
+    // Resize window
+    socket.on('resize', (newDim) => {
+        const player = board.players[socket.id];
+        if(!player) return;
+        
+        player.windowSize = newDim;
     });
 
     // Verify collisions
@@ -66,8 +74,14 @@ setInterval(() => {
     // io.sockets.emit('state', board.players, board.food);
     Object.keys(io.sockets.sockets).forEach(id => {
         const player = board.players[id];
-        const nearbyFood = board.getNearbyFood(id);
-        const nearbyPlayers = board.getNearbyPlayers(id);
+        if(!player) return;
+        
+        const screenWidth = player.windowSize.x/2;
+        // console.log(player.windowSize.x)
+        const screenHeight = player.windowSize.y/2;
+
+        const nearbyFood = board.getNearbyFood(id, screenWidth, screenHeight);
+        const nearbyPlayers = board.getNearbyPlayers(id, screenWidth, screenHeight);
 
         io.to(`${id}`).emit('state', player, nearbyFood, nearbyPlayers);
     });
