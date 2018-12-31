@@ -48,7 +48,8 @@ let Player = class extends Circle {
         this.radius += radius;
     }
     absorbPlayer(radius) {
-        this.radius += (this.radius / this.radius**1.44) * 10;
+        this.radius = Math.sqrt(this.calcSqr(this.radius) + this.calcSqr(radius));
+        // this.radius += (radius / radius**1.44) * 10;
     }
     showCollision() {
         this.color = 'red';
