@@ -13,9 +13,11 @@ Get Bigger.
 
 <h3>Demo</h3>
 This repo is currently hosted on Heroku at https://glacial-everglades-65673.herokuapp.com/</br></br>
-It is VERY laggy. But it runs fine on my laptop's localhost, using only</br>
+It is VERY laggy. But it runs fine on my laptop's localhost(2 cores, i7-7500U@2.7GHz), using only</br>
 ~10% CPU for the Client and</br>
-~2-3% CPU for the Server to handle that single Client and the dummy players I instantiate
+~2-3% CPU for the Server to handle that single Client and the dummy players I instantiate</br>
+and</br>
+~10% CPU for the Server to handle 5 concurrent Clients
 
 <h3>How this was built</h3>
 
