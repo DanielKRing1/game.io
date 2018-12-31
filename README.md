@@ -9,9 +9,9 @@ Get Bigger.
 <h3>Setup</h3>
 > <b>Clone this repo</b> </br>
 > Open your terminal and <b>cd into the cloned Repo</b> </br>
-> Run <b>'npm install'</b> in your terminal (this will install Express, SocketIO, Nodemon, uuid, and any future dependencies)
-> Run <b>nodemon server</b> in your terminal
-> The game will be available at http://localhost:3000
+> Run <b>'npm install'</b> in your terminal (this will install Express, SocketIO, Nodemon, uuid, and any future dependencies)</br>
+> Run <b>nodemon server</b> in your terminal</br>
+> The game will be available at http://localhost:3000</br>
 
 <h3>Demo</h3>
 This repo is currently hosted on Heroku at https://glacial-everglades-65673.herokuapp.com/</br></br>
